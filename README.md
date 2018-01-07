@@ -4,7 +4,7 @@ Readit not reddit &amp; Reddit clone &amp; Not reddit
 
 - Nume echipa
   - Fire Breathing Rubber Duckies
-  ![Logo](README/FireBreathingRubberDuckiesLogo.png?raw=true "Logo")
+  ![Logo](README/FireBreathingRubberDuckiesLogo.jpg?raw=true "Logo")
   
 - Membri echipa
   - Anghel Madalina
@@ -19,6 +19,8 @@ Proiectul este o aplicatie web care permite utilizatorilor sa impartaseasca link
 - Diagrama cazuri utilizare:
  
 ![Diagram](README/NotRedditDiagram.png?raw=true "Diagram")
+
+
 
 
 - Schema:
