@@ -50,3 +50,12 @@ class CommentVote(models.Model):
 
     def __str__(self):
         return self.type
+
+class PostVote(models.Model):
+    type = models.IntegerField()
+    user = models.ForeignKey(User)
+    post= models.ForeignKey(Post)
+
+    def __str__(self):
+        return self.type
+
