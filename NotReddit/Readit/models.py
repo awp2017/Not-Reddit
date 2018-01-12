@@ -15,3 +15,17 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Post(models.Model):
+	#category = models.ForeignKey(Category)
+	user = models.ForeignKey(User)
+	title = models.CharField(max_length=100)
+	text = models.CharField(max_length=500, blank=True)
+	link = models.URLField(max_length=100, blank=True)
+	date_created = models.DateTimeField(auto_now_add=True)
+	date_updated = models.DateTimeField(auto_now=True)
+	type = models.IntegerField(default=0, blank=True)
+	#TODO: Add post image
+	
+	def __str__(self):
+		return self.title
