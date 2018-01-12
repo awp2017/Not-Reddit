@@ -17,15 +17,36 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Post(models.Model):
-	#category = models.ForeignKey(Category)
-	user = models.ForeignKey(User)
-	title = models.CharField(max_length=100)
-	text = models.CharField(max_length=500, blank=True)
-	link = models.URLField(max_length=100, blank=True)
-	date_created = models.DateTimeField(auto_now_add=True)
-	date_updated = models.DateTimeField(auto_now=True)
-	type = models.IntegerField(default=0, blank=True)
-	#TODO: Add post image
-	
-	def __str__(self):
-		return self.title
+    #category = models.ForeignKey(Category)
+    user = models.ForeignKey(User)
+    title = models.CharField(max_length=100)
+    text = models.CharField(max_length=500, blank=True)
+    link = models.URLField(max_length=100, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+    type = models.IntegerField(default=0, blank=True)
+    #TODO: Add post image
+
+    def __str__(self):
+        return self.title
+
+
+class Comment(models.Model):
+    text = models.CharField(max_length=10000)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
+    post = models.ForeignKey(Post)
+    comment = models.ForeignKey('self', related_name='+')
+
+    def __str__(self):
+        return self.text
+
+
+class CommentVote(models.Model):
+    type = models.IntegerField()
+    user = models.ForeignKey(User)
+    comment = models.ForeignKey(Comment, related_name='+')
+
+    def __str__(self):
+        return self.type

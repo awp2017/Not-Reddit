@@ -3,8 +3,18 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
+from Readit.models import Post
 
 # Create your views here.
+
+class PostListView(ListView):
+    template_name = 'home.html'
+    model = Post
+    context_object_name = 'posts'
+
+    def get_queryset(self, *args, **kwargs):
+        return Post.objects
 
 def register(request):
     if request.method =='POST':

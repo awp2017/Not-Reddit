@@ -1,0 +1,29 @@
+{% extends 'layout.html' %} 
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+
+<h1>Posts</h1>
+
+<table class="table table-bordered table-hover">
+    <caption>List of all groups</caption>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.pk }}</td>
+            <td>{{ post.title }}</td>
+            <td>{{ post.text }}</td>
+{#            <td>#}
+{#                <a href="{% url 'group_detail' pk=group.pk %}">#}
+{#                    <button class="btn btn-info">#}
+{#                        Detalii#}
+{#                    </button>#}
+{#                </a>#}
+{#            </td>#}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -7,4 +7,6 @@ from . import views
 urlpatterns = [
     url(r'^login/$', login, {'template_name': 'login.html'}, name='login'),
     url(r'^register/$', views.register, name='register'),
+    url(r'^$', views.PostListView.as_view(), name='post_list'),
+
 ]
