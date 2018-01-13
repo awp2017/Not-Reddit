@@ -7,14 +7,17 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=10000, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     admins = models.ManyToManyField(User, related_name='admined_categories')
     followers = models.ManyToManyField(User, related_name='followed_categories')
+
     def __str__(self):
         return self.name
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
@@ -24,10 +27,12 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 # Trigger for creating an User Profile object for a new user.
 def create_user_profile(sender, **kwargs):
     if kwargs['created']:
         user_profile = UserProfile.objects.create(user=kwargs['instance'])
+
 
 post_save.connect(create_user_profile, sender=User)
 
@@ -40,9 +45,8 @@ class Post(models.Model):
     link = models.URLField(max_length=100, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    type = models.IntegerField(default=0, blank=True)
     votes = models.ManyToManyField(User, through='PostVote', related_name="voted_posts")
-    #TODO: Add post image
+    # TODO: Add post image
 
     def __str__(self):
         return self.title
@@ -60,6 +64,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.text
 
+
 class CommentVote(models.Model):
     type = models.IntegerField()
     user = models.ForeignKey(User)
@@ -68,10 +73,11 @@ class CommentVote(models.Model):
     def __str__(self):
         return self.type
 
+
 class PostVote(models.Model):
     type = models.IntegerField()
     user = models.ForeignKey(User)
-    post= models.ForeignKey(Post)
+    post = models.ForeignKey(Post)
 
     def __str__(self):
         return self.type
