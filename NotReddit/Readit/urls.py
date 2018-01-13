@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^frontpage/$', views.CategoryPostList.as_view(), name='category_post_list'),
     url(r'^ajax/category_statistics/(?P<pk>[0-9]+)/$', views.get_statistics, name='category_statistics'),
     url(r'^post_add/$', views.PostCreateView.as_view(), name='post_create'),
-    url(r'^category/(?P<pk_category>[0-9]+)/post/(?P<pk_post>[0-9]+)/comment/(?P<pk_comment>[0-9]+)/$', views.CommentUpdate.as_view(),
+    url(r'^category/(?P<pk_category>[0-9]+)/post/(?P<pk_post>[0-9]+)/comment/(?P<pk_comment>[0-9]+)/edit/$', views.CommentUpdate.as_view(),
      name='comment_update'),
+    url(r'^category/(?P<pk_category>[0-9]+)/post/(?P<pk_post>[0-9]+)/comment_add/$', views.CommentCreateView.as_view(),
+     name='comment_create'),
 ]
