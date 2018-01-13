@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Add post</h1>
+<h1><i class="material-icons md-20">edit</i> Add post</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" value="Update" class="btn btn-primary">
-        Add post
+        <i class="material-icons md-14">save</i>  Add post
     </button>
 </form>
 {% endblock %}
