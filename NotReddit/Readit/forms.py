@@ -7,7 +7,7 @@ from Readit.models import Post
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from Readit.models import UserProfile
+from Readit.models import UserProfile, Comment
 
 class MyForm(forms.ModelForm):
 	class Meta:
@@ -54,6 +54,11 @@ class PostEditForm(forms.ModelForm):
     class Meta:
     	model = Post
     	fields = ('title', 'text', 'link')
+
+class CommentEditForm(forms.ModelForm):
+	class Meta:
+		model = Comment
+		fields = ('text',)
 
 
 #form-urile lui Claudiu
