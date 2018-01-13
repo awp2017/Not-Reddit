@@ -10,5 +10,11 @@ urlpatterns = [
     url(r'^$', views.PostListView.as_view(), name='post_list'),
     url(r'^post/(?P<pk>[0-9]+)/$', views.PostDetail.as_view(), name='post_detail'),
     url(r'^user/(?P<pk>[0-9]+)/$', views.UserProfileDetail.as_view(), name='user_detail'),
+<<<<<<< HEAD
     url(r'^post/(?P<pk>[0-9]+)/update$', views.PostUpdate.as_view(), name='post_update'),
+=======
+    url(r'^category/(?P<pk>[0-9]+)/$', views.CategoryPostList.as_view(), name='category_post_list'),
+    url(r'^frontpage/$', views.CategoryPostList.as_view(), name='category_post_list'),
+
+>>>>>>> CateogryPostList
 ]
