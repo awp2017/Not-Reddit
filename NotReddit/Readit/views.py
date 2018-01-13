@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
-from Readit.models import Post
+from Readit.models import Post , UserProfile
 
 # Create your views here.
 
@@ -34,3 +34,12 @@ def register(request):
     else:
         form = UserCreationForm()
         return render(request, 'registration.html', {'form': form})
+
+
+class UserProfileDetail(DetailView):
+    model = UserProfile
+    context_object_name = 'user_profile_detail'
+    template_name = 'user_profile_detail.html'
+
+    def get_object(self):
+        return get_object_or_404(UserProfile, pk=self.kwargs['pk'])
