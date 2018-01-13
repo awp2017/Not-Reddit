@@ -90,10 +90,14 @@
                 </a>
             {% else %}
                 <a class="nav-item nav-link"
-                   href="{% url 'user_profile' username=request.user.username %}">
+                   href="{% url 'user_profile' username=request.user.username %}"
+                    style="vertical-align: top;">
+                   <i class="material-icons md-14">person</i>
                     My Profile
                 </a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}">     Logout
+                <a class="nav-item nav-link" href="{% url 'logout' %}"
+                    style="vertical-align: top;">
+                    Logout
                 </a>
             {% endif %}
         </div>
