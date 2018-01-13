@@ -4,8 +4,9 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
+from django.urls import reverse 
 from Readit.models import Post , UserProfile
-from Readit.forms import MyForm
+from Readit.forms import MyForm, PostEditForm
 
 # Create your views here.
 
@@ -30,6 +31,13 @@ class PostDetail(DetailView):
     def get_object(self):
         return get_object_or_404(Post, pk=self.kwargs['pk'])
 
+class PostUpdate(UpdateView):
+    model = Post
+    form_class = PostEditForm
+    template_name = 'post_update.html'
+    
+    def get_success_url(self, *args, **kwargs):
+        return reverse('post_detail', kwargs={'pk': self.object.pk})
 
 # View-urile Dianei
 

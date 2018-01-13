@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django import forms
+from Readit.models import Post
+
 
 class MyForm(forms.ModelForm):
 	class Meta:
@@ -12,6 +14,11 @@ class MyForm(forms.ModelForm):
 
 
 #form-urile Mădălinei
+
+class PostEditForm(forms.ModelForm):
+    class Meta:
+    	model = Post
+    	fields = ('title', 'text', 'link')
 
 
 #form-urile lui Claudiu
