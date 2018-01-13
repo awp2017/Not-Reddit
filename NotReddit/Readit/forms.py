@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django import forms
-from Readit.models import Post
-
+from Readit.models import Post, UserProfile, Category
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from Readit.models import UserProfile
 
 class MyForm(forms.ModelForm):
 	class Meta:
@@ -57,6 +55,11 @@ class PostEditForm(forms.ModelForm):
 
 
 #form-urile lui Claudiu
+
+class PostAddForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'text', 'link', 'category')
 
 
 #form-urile lui Dutzu 

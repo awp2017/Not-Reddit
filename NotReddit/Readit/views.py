@@ -10,13 +10,29 @@ from django.contrib.auth.models import User
 
 from django.urls import reverse
 from Readit.models import Post, UserProfile, Category, FollowCategory, UserProfile
-from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile
+from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile, PostAddForm
 
 
 # Create your views here.
 
 # View-urile lui Claudiu
 
+class PostCreateView(LoginRequiredMixin, CreateView):
+    template_name = 'post_add.html'
+    form_class = PostAddForm
+    model = Post
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(PostCreateView, self).form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse(
+            'post_detail', 
+            kwargs={
+                'pk': self.object.pk
+            }
+        )
 
 class PostListView(ListView):
     template_name = 'post_list.html'
