@@ -62,7 +62,8 @@ class CategoryPostList(CategoriesMixin, ListView):
     context_object_name = 'posts'
   
     def get_context_data(self, **kwargs):
-        context = {}
+        context = super(CategoriesMixin, self).get_context_data(**kwargs)
+        context['all_categories'] = Category.objects.all()
         context['posts'] = Post.objects.filter(category=self.kwargs['pk_category'])
         context['category'] = Category.objects.get(pk=self.kwargs['pk_category'])
         return context
