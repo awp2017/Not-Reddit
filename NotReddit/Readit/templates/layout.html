@@ -30,7 +30,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-collapse">
-        <a class="navbar-brand" href="#">Mac</a> 
+        <a class="navbar-brand" href="/">Mac</a> 
         <button class="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
@@ -42,18 +42,24 @@
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="#">
+                <a class="nav-item nav-link" href="/category/1">
                     <i class="material-icons md-14">search</i>
-                    Buton
+                    Temp categ 1
+                </a>
+                <a class="nav-item nav-link" href="/category/2">
+                    <i class="material-icons md-14">search</i>
+                    Temp categ 2
                 </a>
                 <a class="nav-item nav-link" href="#">
                     <i class="material-icons md-14">search</i>
                     Buton
                 </a>
-                <a class="nav-item nav-link" href="#">
+                {% for category in category_list %}
+                <a class="nav-item nav-link" href={{ category.id }}>
                     <i class="material-icons md-14">search</i>
-                    Buton
+                    {{ category.name }}
                 </a>
+                {% endfor %}
             </div>
         </div>
         <div class="navbar-nav">

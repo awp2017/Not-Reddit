@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
-from Readit.models import Post , UserProfile
+from Readit.models import Post, UserProfile, Category, FollowCategory
 from Readit.forms import MyForm
 
 # Create your views here.
@@ -13,22 +13,42 @@ from Readit.forms import MyForm
 
 
 class PostListView(ListView):
-    template_name = 'home.html'
+    template_name = 'post_list.html'
     model = Post
     context_object_name = 'posts'
+
+
 
     def get_queryset(self, *args, **kwargs):
         return Post.objects.all()
 
 
 class CategoryPostList(ListView):
-    template_name = 'home.html'
+    template_name = 'post_list.html'
     model = Post
     context_object_name = 'posts'
-    
+
     def get_queryset(self, *args, **kwargs):
-        print "oxoxoxoxoxox"
         return Post.objects.filter(category=self.kwargs['pk'])
+
+
+class FollowedCategoriesPostList(ListView):
+    template_name = 'post_list.html'
+    model = Post
+    context_object_name = 'posts'
+
+    def get_queryset(self, *args, **kwargs):
+        # TODO change user=1 to something smart
+        return Post.objects.filter(category=self.kwargs['pk'], user=1)
+
+class CategoryList(ListView):
+    template_name = 'layout.html'
+    model = Category
+    context_object_name = 'category_list'
+
+    def get_queryset(self, *args, **kwargs):
+        print 'xoxoxo'
+        return Category.objects.all().order_by('name')
 
 # View-urile Mădălinei
 
