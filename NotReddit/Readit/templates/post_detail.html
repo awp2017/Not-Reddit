@@ -2,11 +2,9 @@
 
 {% block body %}
 <div class="page-header">
-	<h1>{{ post_detail.title }}<small> by {{ post_detail.user.username }}</small></h1>
+	<h1>{{ post_detail.title }}<small> by <a href="{% url 'user_profile' username=post_detail.user.username %}" >{{ post_detail.user.username }}</a></small></h1>
 </div>
-<div class="input-group">
-	<p>{{ post_detail.text }}</p>
-</div>
+<p class="card">{{ post_detail.text }}</p>
 {% if request.user.is_authenticated and request.user.username == post_detail.user.username %}
 <a href="{% url 'post_update' pk_category=post_detail.category.pk pk_post=post_detail.pk %}">
 	<button class="btn btn-info">
@@ -19,11 +17,11 @@
 <ul class="list-group">
 	{% for comment in comments_list %}
 		<li class="list-group-item">
-			<h5>{{ comment.user.username }} </h5>
+			<h5>  <a href="{% url 'user_profile' username=comment.user.username %}" >{{ comment.user.username }} </a></h5>
 			<p>{{ comment.text }} </p>
 			{% if request.user.is_authenticated and request.user.username == comment.user.username %}
 			<a href="{% url 'comment_update' pk_category=comment.post.category.pk pk_post=comment.post.pk pk_comment=comment.pk %}">
-				<button class="btn btn-info">
+				<button class="btn btn-info" style="float: right;">
 					Edit
 				</button>
 			</a>
@@ -31,6 +29,7 @@
 		</li>
 	{% endfor %}
 </ul>
+<br/><br/>
 <a href="{% url 'comment_create' pk_category=post_detail.category.pk pk_post=post_detail.pk %}">
 	<button class="btn btn-info">
 		Add comment
