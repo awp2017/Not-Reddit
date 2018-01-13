@@ -10,6 +10,9 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^$', views.PostListView.as_view(), name='post_list'),
     url(r'^category/add/$', views.CategoryCreateView.as_view(), name='add_category'),
+
+    url(r'^category/(?P<pk>[0-9]+)/delete$', views.CategoryDelete.as_view(), name='category_delete'),
+  
     url(r'^category/(?P<pk_category>[0-9]+)/$', views.CategoryPostList.as_view(), name='category_post_list'),
     url(r'^category/(?P<pk_category>[0-9]+)/edit$', views.CategoryUpdateView.as_view(), name='edit_category'),
     url(r'^category/(?P<pk_category>[0-9]+)/post/(?P<pk_post>[0-9]+)/$', views.PostDetail.as_view(), name='post_detail'),
