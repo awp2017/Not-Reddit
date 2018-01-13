@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect, get_object_or_404 
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from Readit.forms import MyForm, RegistrationForm, EditUserProfile
 from Readit.models import Post, UserProfile, Category, FollowCategory
-from Readit.forms import MyForm
 
 # Create your views here.
 
@@ -62,17 +65,41 @@ class PostDetail(DetailView):
 
 
 # View-urile Dianei
-
 def register(request):
     if request.method =='POST':
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('login')
         return render(request, 'registration.html', {'form': form})
     else:
-        form = UserCreationForm()
+        form = RegistrationForm()
         return render(request, 'registration.html', {'form': form})
+
+
+class UserProfile(DetailView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'user_profile_detail.html'
+    def get_object(self):
+        return get_object_or_404(User, username=self.kwargs['username'])
+
+
+class EditUserProfile(LoginRequiredMixin, UpdateView):
+    template_name = 'edit_user_profile.html'
+    form_class = EditUserProfile
+    model = UserProfile
+
+    def get_object(self):
+    	return self.request.user.profile
+    
+    def get_success_url(self, *args, **kwargs):
+        return reverse(
+            'user_profile', 
+            kwargs={
+                'username': self.object.user.username
+            }
+        )
 
 
 # View-urile lui Dutzu
