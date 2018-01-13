@@ -57,14 +57,19 @@
                         </div>
                     </div>
                 {% endif %}
-                <a class="nav-item nav-link" href="/category/1">
-                    <i class="material-icons md-14">search</i>
-                    Temp categ 1
-                </a>
-                <a class="nav-item nav-link" href="/category/2">
-                    <i class="material-icons md-14">search</i>
-                    Temp categ 2
-                </a>
+                <div class="dropdown">
+                    <a class="nav-item nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        All
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for category in all_categories %}
+                            <a class="dropdown-item"
+                               href="{% url 'category_post_list' pk=category.pk %}">
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
                 <a class="nav-item nav-link" href="/post_add">
                     <i class="material-icons md-14">search</i>
                     Add post
