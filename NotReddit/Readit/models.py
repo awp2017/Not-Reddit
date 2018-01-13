@@ -58,7 +58,7 @@ class Comment(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User)
     post = models.ForeignKey(Post)
-    comment = models.ForeignKey('self', related_name='+')
+    #comment = models.ForeignKey('self', related_name='+', blank=True)
     votes = models.ManyToManyField(User, through='CommentVote', related_name="voted_comments")
 
     def __str__(self):
