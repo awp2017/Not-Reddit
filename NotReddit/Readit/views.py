@@ -9,9 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 
 from django.urls import reverse
-from Readit.models import Post, UserProfile, Category, FollowCategory, UserProfile, Comment
-from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile, CommentEditForm
-from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile, PostAddForm
+from Readit.models import Post, Category, UserProfile, Comment
+from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile, CommentEditForm, PostAddForm
 
 
 # Create your views here.
