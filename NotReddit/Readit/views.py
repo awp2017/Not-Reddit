@@ -15,7 +15,7 @@ from django.http import JsonResponse
 
 from django.urls import reverse
 from Readit.models import Post, Category, UserProfile, Comment
-from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile, CommentEditForm, PostAddForm
+from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile, CommentEditForm, PostAddForm, CategoryForm
 
 
 # Create your views here.
@@ -169,6 +169,21 @@ class EditUserProfile(LoginRequiredMixin, UpdateView):
             }
         )
 
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    template_name = 'add_category.html'
+    form_class = CategoryForm
+    model = Category
+
+    def form_valid(self, form):
+        return super(CategoryCreateView, self).form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse(
+            'category_post_list', 
+            kwargs = {
+                'pk': self.object.pk
+            }
+        )
 
 # View-urile lui Dutzu
 

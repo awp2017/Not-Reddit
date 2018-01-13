@@ -41,10 +41,19 @@ class RegistrationForm(UserCreationForm):
 
         return user
 
+
 class EditUserProfile(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ('description', 'image_url')
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('name', 'description', 'admins')
+
+
 
 
 #form-urile Mădălinei
