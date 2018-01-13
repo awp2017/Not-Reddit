@@ -1,0 +1,192 @@
+{% extends 'layout.html' %} 
+
+{% block title %}Posts{% endblock %}
+
+
+{% block styles %}
+
+body { font: 12px Arial;}
+
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="row">
+        <div class="col-md-6 d-flex align-items-center justify-content-end" style="padding-right: 20px; border-right: 1px solid #aaaaaa;">
+            <div style="text-align: right">
+                <h1 class="display-4">
+                    {{ category.name }}
+                </h1>
+                <span> {{ category.description }} </span>
+                <br />
+            </div>
+        </div>
+
+        <div class="col-md-6" style="text-align: left; padding-left: 20px">
+            {% if request.user.is_authenticated %}
+                {% if request.user in category.followers.all %}
+                    <button class="btn btn-primary" onclick="follow()">
+                        Unfollow
+                    </button>
+                {% else %}
+                    <button class="btn btn-primary" onclick="follow()">
+                        Follow
+                    </button>
+                {% endif %}
+                <br />
+                <br />
+            {% endif %}
+            {% if request.user.is_authenticated and request.user in category.admins.all %}
+                <a href="{% url 'edit_category' pk_category=category.pk %}">
+                    <button class="btn btn-primary">
+                        Edit category
+                    </button>
+                </a>
+                <br />
+                <br />
+                <a href="#">
+                    <button class="btn btn-danger">
+                        Delete category
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="statistici"></div>
+
+<table class="table table-bordered table-hover">
+    <caption>Posts in this category</caption>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.pk }}</td>
+            <td>{{ post.title }}</td>
+            <td>{{ post.text }}</td>
+            <td>
+                <a href="{% url 'post_detail' pk_category=category.pk pk_post=post.pk %}">
+                    <button class="btn btn-info">
+                        Detalii
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<!-- load the d3.js library -->    
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script>
+var follow = function() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            window.location.reload();
+        }
+    };
+    xhttp.open("GET", '{% url "category_follow" pk_category=category.pk username=request.user.username %}', true);
+    xhttp.send();
+}
+
+// Set the dimensions of the canvas / graph
+var margin = {top: 30, right: 20, bottom: 30, left: 50},
+    width = 600 - margin.left - margin.right,
+    height = 270 - margin.top - margin.bottom;
+
+// Parse the date / time
+var parseDate = d3.time.format("%d-%b-%y").parse;
+
+// Set the ranges
+var x = d3.time.scale().range([0, width]);
+var y = d3.scale.linear().range([height, 0]);
+
+// Define the axes
+var xAxis = d3.svg.axis().scale(x)
+    .orient("bottom").ticks(5);
+
+var yAxis = d3.svg.axis().scale(y)
+    .orient("left").ticks(5);
+
+// Define the line
+var valueline = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.posts); });
+    
+// Adds the svg canvas
+var svg = d3.select("#statistici")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", 
+              "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        data = JSON.parse(this.responseText).result;
+        addData(data)
+    }
+};
+
+xhttp.open("GET", '{% url "category_statistics" pk=category.pk %}', true);
+xhttp.send();
+
+var addData = function(data) {
+    data.forEach(function(d) {
+        d.date = new Date(d.date);
+        d.posts = parseInt(d.posts);
+    });
+
+    // Scale the range of the data
+    x.domain(d3.extent(data, function(d) { return d.date; }));
+    y.domain([0, d3.max(data, function(d) { return d.posts; })]);
+
+    // Add the valueline path.
+    svg.append("path")
+        .attr("class", "line")
+        .attr("d", valueline(data));
+
+    // Add the X Axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+}
+
+</script>
+{% endblock %}
