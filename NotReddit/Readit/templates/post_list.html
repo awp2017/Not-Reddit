@@ -11,7 +11,10 @@
         {% for post in posts %}
         <tr>
             <td>{{ post.pk }}</td>
-            <td>{{ post.title }}</td>
+            <td><a href="{% if post.link  %}{{post.link}} {% else %} 
+                        {% url 'post_detail' pk_post=post.pk pk_category=post.category.pk %} {% endif %}">
+                {{ post.title }}
+            </a></td>
             <td>{{ post.text }}</td>
             <td>
                 <a href="{% url 'post_detail' pk_post=post.pk pk_category=post.category.pk %}">
