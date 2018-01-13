@@ -9,10 +9,8 @@ from django.db.models.signals import post_save
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
     description = models.CharField(max_length=200)
-    #TODO (dianamin): Add user image.
+    image_url = models.CharField(max_length=200)
 
     def __str__(self):
         return self.user.username
