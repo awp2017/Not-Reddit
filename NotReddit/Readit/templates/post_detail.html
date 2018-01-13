@@ -11,9 +11,10 @@
  		<p> {{ post_detail.text }} </p>
  	</div>
 </div>
+<br />
 {% if request.user.is_authenticated and request.user.username == post_detail.user.username %}
 <a href="{% url 'post_update' pk_category=post_detail.category.pk pk_post=post_detail.pk %}">
-	<button class="btn btn-info">
+	<button class="btn btn-primary">
 		Edit
 	</button>
 </a>
@@ -25,6 +26,8 @@
 </a>
 {% endif %}
 
+<br />
+<br />
 {% block comments %}
 <h3> Comments </h3>
 <ul class="list-group">
@@ -34,7 +37,7 @@
 			<p>{{ comment.text }} </p>
 			{% if request.user.is_authenticated and request.user.username == comment.user.username %}
 			<a href="{% url 'comment_update' pk_category=comment.post.category.pk pk_post=comment.post.pk pk_comment=comment.pk %}">
-				<button class="btn btn-info" style="float: right;">
+				<button class="btn btn-primary" style="float: right;">
 					Edit
 				</button>
 			</a>
@@ -44,7 +47,7 @@
 </ul>
 <br/><br/>
 <a href="{% url 'comment_create' pk_category=post_detail.category.pk pk_post=post_detail.pk %}">
-	<button class="btn btn-info">
+	<button class="btn btn-primary">
 		Add comment
 	</button>
 </a>
