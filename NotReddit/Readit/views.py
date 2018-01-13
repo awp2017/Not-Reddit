@@ -14,7 +14,7 @@ class PostListView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
-        return Post.objects
+        return Post.objects.all()
 
 class PostDetail(DetailView):
     model = Post
