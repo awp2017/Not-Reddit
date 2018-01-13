@@ -28,9 +28,15 @@ class PostListView(ListView):
 
 
 class CategoryPostList(ListView):
-    template_name = 'post_list.html'
+    template_name = 'category_detail.html'
     model = Post
     context_object_name = 'posts'
+  
+    def get_context_data(self, **kwargs):
+        context = {}
+        context['posts'] = Post.objects.filter(category=self.kwargs['pk'])
+        context['category'] = Category.objects.get(pk=self.kwargs['pk'])
+        return context
 
     def get_queryset(self, *args, **kwargs):
         return Post.objects.filter(category=self.kwargs['pk'])
