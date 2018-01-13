@@ -2,10 +2,9 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404 
-from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
 from Readit.models import Post , UserProfile
-from Readit.forms import MyForm
+from Readit.forms import MyForm, RegistrationForm
 
 # Create your views here.
 
@@ -35,13 +34,13 @@ class PostDetail(DetailView):
 
 def register(request):
     if request.method =='POST':
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('login')
         return render(request, 'registration.html', {'form': form})
     else:
-        form = UserCreationForm()
+        form = RegistrationForm()
         return render(request, 'registration.html', {'form': form})
 
 
