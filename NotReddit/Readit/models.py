@@ -11,7 +11,8 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=10000, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-
+    admins = models.ManyToManyField(User, related_name='admined_categories')
+    followers = models.ManyToManyField(User, related_name='followed_categories')
     def __str__(self):
         return self.name
 
@@ -40,23 +41,11 @@ class Post(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     type = models.IntegerField(default=0, blank=True)
+    votes = models.ManyToManyField(User, through='PostVote', related_name="voted_posts")
     #TODO: Add post image
 
     def __str__(self):
         return self.title
-
-
-# Who admins what category
-class Admin(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User)
-    category = models.ForeignKey(Category)
-
-
-# Who follows what category
-class FollowCategory(models.Model):
-    user = models.ForeignKey(User)
-    category = models.ForeignKey(Category)
 
 
 class Comment(models.Model):
@@ -66,10 +55,10 @@ class Comment(models.Model):
     user = models.ForeignKey(User)
     post = models.ForeignKey(Post)
     comment = models.ForeignKey('self', related_name='+')
+    votes = models.ManyToManyField(User, through='CommentVote', related_name="voted_comments")
 
     def __str__(self):
         return self.text
-
 
 class CommentVote(models.Model):
     type = models.IntegerField()
