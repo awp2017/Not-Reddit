@@ -61,8 +61,7 @@ class EditUserProfile(LoginRequiredMixin, UpdateView):
     model = UserProfile
 
     def get_object(self):
-    	#TODO (dianamin): This is quite hacky.
-    	return get_object_or_404(User, username=self.kwargs['username']).profile
+    	return self.request.user.profile
     
     def get_success_url(self, *args, **kwargs):
         return reverse(

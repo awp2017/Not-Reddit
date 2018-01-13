@@ -67,9 +67,12 @@
                     Register
                 </a>
             {% else %}
-            <li>
-                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-            </li>
+                <a class="nav-item nav-link"
+                   href="{% url 'user_profile' username=request.user.username %}">
+                    My Profile
+                </a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">     Logout
+                </a>
             {% endif %}
         </div>
     </nav>

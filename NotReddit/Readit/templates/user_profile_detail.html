@@ -11,6 +11,14 @@
                 <span> {{ user.first_name }} {{ user.last_name }} </span>
                 <br />
                 <span> {{ user.profile.description }} </span>
+                <br />
+            	{% if request.user.is_authenticated and request.user.username == user.username %}
+                	<a href="{% url 'edit_user_profile' %}">
+	            		<button class="btn btn-default">
+	            			Edit profile
+	            		</button>
+	            	</a>
+            	{% endif %}
             </div>
         </div>
 
