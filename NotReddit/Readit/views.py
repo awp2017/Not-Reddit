@@ -162,6 +162,21 @@ def get_statistics(request, pk):
         return JsonResponse({'result': result})
 
 
+def category_follow(request, pk_category, username):
+    if request.method == 'GET':
+        category = Category.objects.get(pk=pk_category)
+        user = User.objects.get(username=username)
+        print pk_category
+
+        if not (user in category.followers.all()):
+            category.followers.add(user)
+        else:
+            category.followers.remove(user)
+        category.save()
+        return JsonResponse({})
+
+
+
 class UserProfile(CategoriesMixin, DetailView):
     model = User
     context_object_name = 'user'
@@ -195,7 +210,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
         return reverse(
             'category_post_list', 
             kwargs = {
-                'pk': self.object.pk
+                'pk_category': self.object.pk
             }
         )
 
@@ -209,7 +224,7 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         return reverse(
             'category_post_list', 
             kwargs = {
-                'pk': self.object.pk
+                'pk_category': self.object.pk
             }
         )
 
