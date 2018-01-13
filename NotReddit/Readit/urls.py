@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^user/edit/$', views.EditUserProfile.as_view(), name='edit_user_profile'),
     url(r'^category/(?P<pk>[0-9]+)/$', views.CategoryPostList.as_view(), name='category_post_list'),
     url(r'^frontpage/$', views.CategoryPostList.as_view(), name='category_post_list'),
+     url(r'^ajax/category_statistics/(?P<pk>[0-9]+)/$', views.get_statistics, name='category_statistics'),
 ]

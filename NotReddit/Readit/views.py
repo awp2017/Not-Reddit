@@ -4,9 +4,14 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
 
+import datetime
+from django.utils import timezone
+
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+
+from django.http import JsonResponse
 
 from django.urls import reverse
 from Readit.models import Post, UserProfile, Category, UserProfile
@@ -89,6 +94,23 @@ def register(request):
     else:
         form = RegistrationForm()
         return render(request, 'registration.html', {'form': form})
+
+
+def get_statistics(request, pk):
+    if request.method == 'GET':
+        result = []
+        for i in range(0, 15):
+            date = timezone.now() - datetime.timedelta(i)
+            y = date.year;
+            m = date.month;
+            d = date.day;
+            posts = Post.objects.filter(category=pk).filter(date_created__year=y, 
+                                                            date_created__month=m, 
+                                                            date_created__day=d).count()
+
+            dateResult = date.strftime("%d-%b-%Y")
+            result.append({'date': dateResult, 'posts': posts})
+        return JsonResponse({'result': result})
 
 
 class UserProfile(DetailView):
