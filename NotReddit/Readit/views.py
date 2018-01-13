@@ -19,7 +19,7 @@ class PostListView(ListView):
 class PostDetail(DetailView):
     model = Post
     context_object_name = 'post_detail'
-    template_name = 'postDetail.html'
+    template_name = 'post_detail.html'
 
     def get_object(self):
         return get_object_or_404(Post, pk=self.kwargs['pk'])
