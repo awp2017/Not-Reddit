@@ -9,6 +9,8 @@ from Readit.forms import MyForm
 
 # Create your views here.
 
+# View-urile lui Claudiu
+
 class PostListView(ListView):
     template_name = 'home.html'
     model = Post
@@ -17,6 +19,9 @@ class PostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         return Post.objects.all()
 
+
+# View-urile Mădălinei
+
 class PostDetail(DetailView):
     model = Post
     context_object_name = 'post_detail'
@@ -24,6 +29,9 @@ class PostDetail(DetailView):
 
     def get_object(self):
         return get_object_or_404(Post, pk=self.kwargs['pk'])
+
+
+# View-urile Dianei
 
 def register(request):
     if request.method =='POST':
@@ -36,6 +44,8 @@ def register(request):
         form = UserCreationForm()
         return render(request, 'registration.html', {'form': form})
 
+
+# View-urile lui Dutzu
 
 class UserProfileDetail(DetailView):
     model = UserProfile
