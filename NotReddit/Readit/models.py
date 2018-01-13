@@ -38,6 +38,9 @@ post_save.connect(create_user_profile, sender=User)
 
 
 class Post(models.Model):
+    class Meta:
+        ordering = ('-date_created',)
+
     category = models.ForeignKey(Category)
     user = models.ForeignKey(User)
     title = models.CharField(max_length=100)
