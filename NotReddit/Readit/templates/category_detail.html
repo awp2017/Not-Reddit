@@ -38,7 +38,7 @@ path {
             <td>{{ post.title }}</td>
             <td>{{ post.text }}</td>
             <td>
-                <a href="{% url 'post_detail' pk=post.pk %}">
+                <a href="{% url 'post_detail' pk_category=category.pk pk_post=post.pk %}">
                     <button class="btn btn-info">
                         Detalii
                     </button>

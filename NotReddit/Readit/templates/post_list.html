@@ -14,7 +14,7 @@
             <td>{{ post.title }}</td>
             <td>{{ post.text }}</td>
             <td>
-                <a href="{% url 'post_detail' pk=post.pk %}">
+                <a href="{% url 'post_detail' pk_post=post.pk pk_category=post.category.pk %}">
                     <button class="btn btn-info">
                         Detalii
                     </button>

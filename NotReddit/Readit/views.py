@@ -14,14 +14,30 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 
 from django.urls import reverse
-from Readit.models import Post, UserProfile, Category, UserProfile
-from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile
+from Readit.models import Post, Category, UserProfile, Comment
+from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile, CommentEditForm, PostAddForm
 
 
 # Create your views here.
 
 # View-urile lui Claudiu
 
+class PostCreateView(LoginRequiredMixin, CreateView):
+    template_name = 'post_add.html'
+    form_class = PostAddForm
+    model = Post
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(PostCreateView, self).form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse(
+            'post_detail', 
+            kwargs={
+                'pk': self.object.pk
+            }
+        )
 
 class PostListView(ListView):
     template_name = 'post_list.html'
@@ -39,12 +55,12 @@ class CategoryPostList(ListView):
   
     def get_context_data(self, **kwargs):
         context = {}
-        context['posts'] = Post.objects.filter(category=self.kwargs['pk'])
-        context['category'] = Category.objects.get(pk=self.kwargs['pk'])
+        context['posts'] = Post.objects.filter(category=self.kwargs['pk_category'])
+        context['category'] = Category.objects.get(pk=self.kwargs['pk_category'])
         return context
 
     def get_queryset(self, *args, **kwargs):
-        return Post.objects.filter(category=self.kwargs['pk'])
+        return Post.objects.filter(category=self.kwargs['pk_category'])
 
 
 class FollowedCategoriesPostList(ListView):
@@ -65,6 +81,7 @@ class CategoryList(ListView):
         print 'xoxoxo'
         return Category.objects.all().order_by('name')
 
+
 # View-urile Mădălinei
 
 class PostDetail(DetailView):
@@ -73,15 +90,30 @@ class PostDetail(DetailView):
     template_name = 'post_detail.html'
 
     def get_object(self):
-        return get_object_or_404(Post, pk=self.kwargs['pk'])
+        return get_object_or_404(Post, pk=self.kwargs['pk_post'], category__pk=self.kwargs['pk_category'])
+
+    def get_context_data(self, **kwargs):
+        data = super(PostDetail, self).get_context_data(**kwargs)
+        data['comments_list'] = Comment.objects.filter(post__id=self.kwargs['pk_post'])
+        return data
 
 class PostUpdate(UpdateView):
     model = Post
     form_class = PostEditForm
     template_name = 'post_update.html'
-    
+    pk_url_kwarg = 'pk_post'
+
     def get_success_url(self, *args, **kwargs):
-        return reverse('post_detail', kwargs={'pk': self.object.pk})
+        return reverse('post_detail', kwargs={'pk_post': self.object.pk, 'pk_category': self.kwargs['pk_category']})
+
+class CommentUpdate(UpdateView):
+    model = Comment
+    form_class = CommentEditForm
+    template_name = 'comment_update.html'
+    pk_url_kwarg = 'pk_comment'
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('post_detail', kwargs={'pk_post': self.object.post.pk, 'pk_category': self.kwargs['pk_category']})
 
 # View-urile Dianei
 def register(request):
