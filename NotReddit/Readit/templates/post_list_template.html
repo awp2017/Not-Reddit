@@ -1,5 +1,4 @@
 <table class="table table-striped">
-    <caption>List of all groups</caption>
     <tbody>
         {% for post in posts %}
         <tr>
@@ -10,10 +9,10 @@
                 </a>
             </td>
             <td class="d-flex align-items-end" style="text-align: right;">
-                <a href="{% url 'post_detail' pk_post=post.pk pk_category=post.category.pk %}" style="float: right;">
+                <a href="{% url 'post_detail' pk_post=post.pk pk_category=post.category.pk %}" style="width: 100%;">
                     <button class="btn btn-info">
-                        Comments
                         <i class="material-icons md-14">comment</i>
+                        Comments
                     </button>
                 </a>
             </td>

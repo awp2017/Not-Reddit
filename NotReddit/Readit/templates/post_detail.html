@@ -6,7 +6,7 @@
 </div>
 <div class="card">
 	<div style="padding-left: 10px; ">
-		<h5 class="card-title" style="opacity: 0.5;"> <a href="{% url 'category_post_list' pk=post_detail.category.pk %}"> {{ post_detail.category.name }} 
+		<h5 class="card-title" style="opacity: 0.5;">Category <a href="{% url 'category_post_list' pk=post_detail.category.pk %}"> {{ post_detail.category.name }} 
 		</a></h5>
  		<p> {{ post_detail.text }} </p>
  	</div>
