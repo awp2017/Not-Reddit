@@ -11,7 +11,14 @@
 		Edit
 	</button>
 </a>
+
+<a href="{% url 'post_delete' pk=post_detail.pk %}">
+	<button class="btn btn-danger">
+		Delete post
+	</button>
+</a>
 {% endif %}
+
 {% block comments %}
 <h3> Comments </h3>
 <ul class="list-group">
