@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
 from Readit.models import Post , UserProfile
+from Readit.forms import MyForm
 
 # Create your views here.
 
