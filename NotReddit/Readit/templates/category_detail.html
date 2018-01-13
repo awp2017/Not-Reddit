@@ -63,33 +63,35 @@ svg {
         </div>
 
         <div class="col-md-6 d-flex align-items-center" style="text-align: left; padding-left: 20px">
-            {% if request.user.is_authenticated %}
-                {% if request.user in category.followers.all %}
-                    <button class="btn btn-primary" onclick="follow()">
-                        Unfollow
-                    </button>
-                {% else %}
-                    <button class="btn btn-primary" onclick="follow()">
-                        Follow
-                    </button>
+            <div>
+                {% if request.user.is_authenticated %}
+                    {% if request.user in category.followers.all %}
+                        <button class="btn btn-primary" onclick="follow()">
+                            Unfollow
+                        </button>
+                    {% else %}
+                        <button class="btn btn-primary" onclick="follow()">
+                            Follow
+                        </button>
+                    {% endif %}
+                    <br />
                 {% endif %}
-                <br />
-                <br />
-            {% endif %}
-            {% if request.user.is_authenticated and request.user in category.admins.all %}
-                <a href="{% url 'edit_category' pk_category=category.pk %}">
-                    <button class="btn btn-primary">
-                        Edit category
-                    </button>
-                </a>
-                <br />
-                <br />
-                <a href="#">
-                    <button class="btn btn-danger">
-                        Delete category
-                    </button>
-                </a>
-            {% endif %}
+                    <br />
+                {% if request.user.is_authenticated and request.user in category.admins.all %}
+                    <a href="{% url 'edit_category' pk_category=category.pk %}">
+                        <button class="btn btn-primary">
+                            Edit category
+                        </button>
+                    </a>
+                    <br />
+                    <br />
+                    <a href="#">
+                        <button class="btn btn-danger">
+                            Delete category
+                        </button>
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
