@@ -100,25 +100,7 @@ svg {
 <div id="statistici" class="d-flex align-items-center"></div>
 
 <br />
-<table class="table table-bordered table-hover">
-    <caption>Posts in this category</caption>
-    <tbody>
-        {% for post in posts %}
-        <tr>
-            <td>{{ post.pk }}</td>
-            <td>{{ post.title }}</td>
-            <td>{{ post.text }}</td>
-            <td>
-                <a href="{% url 'post_detail' pk_category=category.pk pk_post=post.pk %}">
-                    <button class="btn btn-primary">
-                        Detalii
-                    </button>
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% include "post_list_template.html" %}
 
 {% endblock %}
 
