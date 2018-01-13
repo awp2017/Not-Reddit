@@ -5,6 +5,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+from Readit.models import UserProfile
+
 class MyForm(forms.ModelForm):
 	class Meta:
 		# model = NumeModel
@@ -38,6 +40,10 @@ class RegistrationForm(UserCreationForm):
 
         return user
 
+class EditUserProfile(forms.ModelForm):
+	class Meta:
+		model = UserProfile
+		fields = ('description', 'image_url')
 
 
 #form-urile Mădălinei

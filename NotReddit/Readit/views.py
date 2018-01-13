@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect, get_object_or_404 
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
 
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from Readit.models import Post , UserProfile
-from Readit.forms import MyForm, RegistrationForm
+from Readit.forms import MyForm, RegistrationForm, EditUserProfile
 
 # Create your views here.
 
@@ -34,7 +35,6 @@ class PostDetail(DetailView):
 
 
 # View-urile Dianei
-
 def register(request):
     if request.method =='POST':
         form = RegistrationForm(request.POST)
@@ -53,6 +53,25 @@ class UserProfile(DetailView):
     template_name = 'user_profile_detail.html'
     def get_object(self):
         return get_object_or_404(User, username=self.kwargs['username'])
+
+
+class EditUserProfile(LoginRequiredMixin, UpdateView):
+    template_name = 'edit_user_profile.html'
+    form_class = EditUserProfile
+    model = UserProfile
+
+    def get_object(self):
+    	#TODO (dianamin): This is quite hacky.
+    	return get_object_or_404(User, username=self.kwargs['username']).profile
+    
+    def get_success_url(self, *args, **kwargs):
+        return reverse(
+            'user_profile', 
+            kwargs={
+                'username': self.object.user.username
+            }
+        )
+
 
 # View-urile lui Dutzu
 
