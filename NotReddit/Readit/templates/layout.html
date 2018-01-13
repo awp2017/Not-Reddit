@@ -42,6 +42,18 @@
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
             <div class="navbar-nav">
+                {% if request.user.is_authenticated %}
+                    <div class="dropdown">
+                        <a class="nav-item nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Followed
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for category in request.user.followed_categories.all %}
+                                <a class="dropdown-item" href="#"> {{ category.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
                 <a class="nav-item nav-link" href="/category/1">
                     <i class="material-icons md-14">search</i>
                     Temp categ 1
@@ -54,12 +66,6 @@
                     <i class="material-icons md-14">search</i>
                     Buton
                 </a>
-                {% for category in category_list %}
-                <a class="nav-item nav-link" href={{ category.id }}>
-                    <i class="material-icons md-14">search</i>
-                    {{ category.name }}
-                </a>
-                {% endfor %}
             </div>
         </div>
         <div class="navbar-nav">
