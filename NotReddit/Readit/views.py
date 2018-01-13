@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, DeleteView, CreateView, U
 import datetime
 from django.utils import timezone
 
-
+from django.views.generic.base import ContextMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 
@@ -22,7 +22,14 @@ from Readit.forms import PostEditForm, RegistrationForm, EditUserProfile, Commen
 
 # View-urile lui Claudiu
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class CategoriesMixin(ContextMixin):
+    def get_context_data(self, **kwargs):
+        context = super(CategoriesMixin, self).get_context_data(**kwargs)
+        context['all_categories'] = Category.objects.all()
+        return context
+
+
+class PostCreateView(LoginRequiredMixin, CategoriesMixin, CreateView):
     template_name = 'post_add.html'
     form_class = PostAddForm
     model = Post
@@ -39,7 +46,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
             }
         )
 
-class PostListView(ListView):
+
+class PostListView(CategoriesMixin, ListView):
     template_name = 'post_list.html'
     model = Post
     context_object_name = 'posts'
@@ -48,7 +56,7 @@ class PostListView(ListView):
         return Post.objects.all()
 
 
-class CategoryPostList(ListView):
+class CategoryPostList(CategoriesMixin, ListView):
     template_name = 'category_detail.html'
     model = Post
     context_object_name = 'posts'
@@ -63,7 +71,7 @@ class CategoryPostList(ListView):
         return Post.objects.filter(category=self.kwargs['pk_category'])
 
 
-class FollowedCategoriesPostList(ListView):
+class FollowedCategoriesPostList(CategoriesMixin, ListView):
     template_name = 'post_list.html'
     model = Post
     context_object_name = 'posts'
@@ -72,19 +80,18 @@ class FollowedCategoriesPostList(ListView):
         # TODO change user=1 to something smart
         return Post.objects.filter(category=self.kwargs['pk'], user=1)
 
-class CategoryList(ListView):
+class CategoryList(CategoriesMixin, ListView):
     template_name = 'layout.html'
     model = Category
     context_object_name = 'category_list'
 
     def get_queryset(self, *args, **kwargs):
-        print 'xoxoxo'
-        return Category.objects.all().order_by('name')
+        return Category.objects.all()
 
 
 # View-urile Mădălinei
 
-class PostDetail(DetailView):
+class PostDetail(CategoriesMixin, DetailView):
     model = Post
     context_object_name = 'post_detail'
     template_name = 'post_detail.html'
@@ -97,7 +104,7 @@ class PostDetail(DetailView):
         data['comments_list'] = Comment.objects.filter(post__id=self.kwargs['pk_post'])
         return data
 
-class PostUpdate(UpdateView):
+class PostUpdate(CategoriesMixin, UpdateView):
     model = Post
     form_class = PostEditForm
     template_name = 'post_update.html'
@@ -106,7 +113,7 @@ class PostUpdate(UpdateView):
     def get_success_url(self, *args, **kwargs):
         return reverse('post_detail', kwargs={'pk_post': self.object.pk, 'pk_category': self.kwargs['pk_category']})
 
-class CommentUpdate(UpdateView):
+class CommentUpdate(CategoriesMixin, UpdateView):
     model = Comment
     form_class = CommentEditForm
     template_name = 'comment_update.html'
@@ -145,7 +152,7 @@ def get_statistics(request, pk):
         return JsonResponse({'result': result})
 
 
-class UserProfile(DetailView):
+class UserProfile(CategoriesMixin, DetailView):
     model = User
     context_object_name = 'user'
     template_name = 'user_profile_detail.html'
@@ -187,7 +194,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 
 # View-urile lui Dutzu
 
-class UserProfileDetail(DetailView):
+class UserProfileDetail(CategoriesMixin, DetailView):
     model = UserProfile
     context_object_name = 'user_profile_detail'
     template_name = 'user_profile_detail.html'
