@@ -27,12 +27,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super(PostCreateView, self).form_valid(form)
 
     def get_success_url(self, *args, **kwargs):
-        return reverse(
-            'post_detail', 
-            kwargs={
-                'pk': self.object.pk
-            }
-        )
+        return reverse('post_detail', kwargs={'pk_post': self.object.pk, 'pk_category': self.object.category.pk})
+   
 
 class PostListView(ListView):
     template_name = 'post_list.html'
@@ -73,7 +69,7 @@ class CategoryList(ListView):
 
 # View-urile Mădălinei
 
-class PostDetail(DetailView):
+class PostDetail(LoginRequiredMixin, DetailView):
     model = Post
     context_object_name = 'post_detail'
     template_name = 'post_detail.html'
@@ -86,7 +82,7 @@ class PostDetail(DetailView):
         data['comments_list'] = Comment.objects.filter(post__id=self.kwargs['pk_post'])
         return data
 
-class PostUpdate(UpdateView):
+class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostEditForm
     template_name = 'post_update.html'
@@ -95,11 +91,24 @@ class PostUpdate(UpdateView):
     def get_success_url(self, *args, **kwargs):
         return reverse('post_detail', kwargs={'pk_post': self.object.pk, 'pk_category': self.kwargs['pk_category']})
 
-class CommentUpdate(UpdateView):
+class CommentUpdate(LoginRequiredMixin, UpdateView):
     model = Comment
     form_class = CommentEditForm
     template_name = 'comment_update.html'
     pk_url_kwarg = 'pk_comment'
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('post_detail', kwargs={'pk_post': self.object.post.pk, 'pk_category': self.kwargs['pk_category']})
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentEditForm
+    template_name = 'comment_create.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.post = get_object_or_404(Post, pk=self.kwargs['pk_post'], category__pk=self.kwargs['pk_category'])
+        return super(CommentCreateView, self).form_valid(form)
 
     def get_success_url(self, *args, **kwargs):
         return reverse('post_detail', kwargs={'pk_post': self.object.post.pk, 'pk_category': self.kwargs['pk_category']})
