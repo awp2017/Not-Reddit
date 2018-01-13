@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView 
+
+
+from django.contrib.auth.models import User
 from Readit.models import Post , UserProfile
 from Readit.forms import MyForm, RegistrationForm
 
@@ -43,6 +46,13 @@ def register(request):
         form = RegistrationForm()
         return render(request, 'registration.html', {'form': form})
 
+def UserProfile(request, username=None):
+    if username:
+        user = User.objects.get(username=username)
+    else:
+        user = request.user
+    args = {'user': user, 'user_profile_detail': user.profile}
+    return render(request, 'user_profile_detail.html', args)
 
 # View-urile lui Dutzu
 

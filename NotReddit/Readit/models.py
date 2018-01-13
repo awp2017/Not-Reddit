@@ -8,9 +8,9 @@ from django.db.models.signals import post_save
 # Create your models here.
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name='profile')
     description = models.CharField(max_length=200)
-    image_url = models.CharField(max_length=200)
+    image_url = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.user.username
