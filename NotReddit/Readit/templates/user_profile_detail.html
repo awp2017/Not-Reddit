@@ -1,7 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>{{ user_profile_detail.user.username}}</h1>
-<p> {{ user_profile_detail.description}}</p>
+<div class="jumbotron jumbotron-fluid">
+    <div class="row">
+        <div class="col-md-6 d-flex align-items-center justify-content-end" style="padding-right: 20px; border-right: 1px solid #aaaaaa;">
+            <div style="text-align: right">
+                <h1 class="display-4">
+                    {{ user.username }}
+                </h1>
+                <span> {{ user.first_name }} {{ user.last_name }} </span>
+                <br />
+                <span> {{ user.profile.description }} </span>
+            </div>
+        </div>
+
+        <div class="col-md-6" style="text-align: left; padding-left: 20px">
+		    <img src="{{ user.profile.image_url }}" 
+		    	 class="thumbnail"
+		    	 style="height: 150px;"/>
+		</div>
+	</div>
+</div>
 
 {% endblock %}

@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^$', views.PostListView.as_view(), name='post_list'),
     url(r'^post/(?P<pk>[0-9]+)/$', views.PostDetail.as_view(), name='post_detail'),
-    url(r'^user/(?P<username>\w+)/$', views.UserProfile, name='user_profile'),
+    url(r'^user/(?P<username>\w+)/$', views.UserProfile.as_view(), name='user_profile'),
 ]

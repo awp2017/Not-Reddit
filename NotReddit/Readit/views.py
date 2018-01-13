@@ -46,13 +46,13 @@ def register(request):
         form = RegistrationForm()
         return render(request, 'registration.html', {'form': form})
 
-def UserProfile(request, username=None):
-    if username:
-        user = User.objects.get(username=username)
-    else:
-        user = request.user
-    args = {'user': user, 'user_profile_detail': user.profile}
-    return render(request, 'user_profile_detail.html', args)
+
+class UserProfile(DetailView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'user_profile_detail.html'
+    def get_object(self):
+        return get_object_or_404(User, username=self.kwargs['username'])
 
 # View-urile lui Dutzu
 
