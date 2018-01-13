@@ -30,4 +30,35 @@
 	</div>
 </div>
 
+
+<h2>
+    <i class="material-icons md-18">grade</i>
+     Admins
+</h2>
+
+{% if user.admined_categories.count == 0 %}
+	<p> This user is the admin of no category. </p>
+{% else %}
+	<ul>
+		{% for category in user.admined_categories.all %}
+			<li> {{ category.name }} </li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+<h2>
+    <i class="material-icons md-18">favorite</i>
+    Follows
+</h2>
+
+{% if user.followed_categories.count == 0 %}
+	<p> This user follows no category. </p>
+{% else %}
+	<ul>
+		{% for category in user.followed_categories.all %}
+			<li> {{ category.name }} </li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
 {% endblock %}
