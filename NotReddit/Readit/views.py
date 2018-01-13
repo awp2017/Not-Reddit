@@ -11,6 +11,7 @@ from Readit.forms import MyForm
 
 # View-urile lui Claudiu
 
+
 class PostListView(ListView):
     template_name = 'home.html'
     model = Post
@@ -19,6 +20,15 @@ class PostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         return Post.objects.all()
 
+
+class CategoryPostList(ListView):
+    template_name = 'home.html'
+    model = Post
+    context_object_name = 'posts'
+    
+    def get_queryset(self, *args, **kwargs):
+        print "oxoxoxoxoxox"
+        return Post.objects.filter(category=self.kwargs['pk'])
 
 # View-urile Mădălinei
 

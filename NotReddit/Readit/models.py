@@ -6,6 +6,14 @@ from django.db import models
 
 # Create your models here.
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=10000, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     first_name = models.CharField(max_length=30)
@@ -17,7 +25,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Post(models.Model):
-    #category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category)
     user = models.ForeignKey(User)
     title = models.CharField(max_length=100)
     text = models.CharField(max_length=500, blank=True)
@@ -35,13 +43,13 @@ class Post(models.Model):
 class Admin(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
-    #category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category)
 
 
 # Who follows what category
 class FollowCategory(models.Model):
     user = models.ForeignKey(User)
-    #category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category)
 
 
 class Comment(models.Model):
