@@ -46,7 +46,6 @@ class PostCreateView(LoginRequiredMixin, CategoriesMixin, CreateView):
                 'pk_category': self.object.category.pk
             }
         )
-        
 class PostListView(CategoriesMixin, ListView):
     template_name = 'post_list.html'
     model = Post
@@ -245,6 +244,13 @@ class UserProfileDetail(CategoriesMixin, DetailView):
 class PostDelete(LoginRequiredMixin, DeleteView):
     template_name = 'post_delete.html'
     model = Post
+    
+    def get_success_url(self, *args, **kwargs):
+        return reverse('post_list')
+
+class CategoryDelete(LoginRequiredMixin, DeleteView):
+    template_name = 'category_delete.html'
+    model = Category
     
     def get_success_url(self, *args, **kwargs):
         return reverse('post_list')

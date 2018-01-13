@@ -15,12 +15,14 @@
 {% if request.user.is_authenticated and request.user.username == post_detail.user.username %}
 <a href="{% url 'post_update' pk_category=post_detail.category.pk pk_post=post_detail.pk %}">
 	<button class="btn btn-primary">
-		Edit
+		<i class="material-icons md-14">edit</i> 
+		Edit post
 	</button>
 </a>
 
 <a href="{% url 'post_delete' pk=post_detail.pk %}">
 	<button class="btn btn-danger">
+		<i class="material-icons md-14">delete_forever</i> 
 		Delete post
 	</button>
 </a>
@@ -38,6 +40,7 @@
 			{% if request.user.is_authenticated and request.user.username == comment.user.username %}
 			<a href="{% url 'comment_update' pk_category=comment.post.category.pk pk_post=comment.post.pk pk_comment=comment.pk %}">
 				<button class="btn btn-primary" style="float: right;">
+					<i class="material-icons md-14">edit</i> 
 					Edit
 				</button>
 			</a>
@@ -48,7 +51,7 @@
 <br/><br/>
 <a href="{% url 'comment_create' pk_category=post_detail.category.pk pk_post=post_detail.pk %}">
 	<button class="btn btn-primary">
-		Add comment
+		<i class="material-icons md-14">add</i> Add comment
 	</button>
 </a>
 {% endblock %}
