@@ -49,7 +49,10 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             {% for category in request.user.followed_categories.all %}
-                                <a class="dropdown-item" href="#"> {{ category.name }}</a>
+                                <a class="dropdown-item" 
+                                   href="{% url 'category_post_list' pk=category.pk %}">
+                                    {{ category.name }}
+                                </a>
                             {% endfor %}
                         </div>
                     </div>

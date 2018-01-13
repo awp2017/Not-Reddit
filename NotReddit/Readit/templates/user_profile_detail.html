@@ -41,7 +41,11 @@
 {% else %}
 	<ul>
 		{% for category in user.admined_categories.all %}
-			<li> {{ category.name }} </li>
+			<li>
+                <a href="{% url 'category_post_list' pk=category.pk %}">
+					{{ category.name }}
+				</a>
+			</li>
 		{% endfor %}
 	</ul>
 {% endif %}
@@ -56,7 +60,11 @@
 {% else %}
 	<ul>
 		{% for category in user.followed_categories.all %}
-			<li> {{ category.name }} </li>
+			<li>
+                <a href="{% url 'category_post_list' pk=category.pk %}">
+					{{ category.name }}
+				</a>
+			</li>
 		{% endfor %}
 	</ul>
 {% endif %}
