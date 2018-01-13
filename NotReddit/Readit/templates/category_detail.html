@@ -13,6 +13,20 @@ path {
     fill: none;
 }
 
+#statistici {
+    background: #E3F2FD;
+    width: 100%;
+    text-align: center;
+    margin-top: -35px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    min-width: 600px;
+}
+
+svg {
+    margin: auto;
+}
+
 .axis path,
 .axis line {
     fill: none;
@@ -35,10 +49,20 @@ path {
                 </h1>
                 <span> {{ category.description }} </span>
                 <br />
+                <span> 
+                    <i class="material-icons md-14">date_range</i>
+                    {{category.date_created}}
+                </span>
+                <br />
+                <br>
+                <span style="font-size: 18px;"> 
+                    <i class="material-icons md-14">favorite</i>
+                    {{category.followers.count}}
+                </span>
             </div>
         </div>
 
-        <div class="col-md-6" style="text-align: left; padding-left: 20px">
+        <div class="col-md-6 d-flex align-items-center" style="text-align: left; padding-left: 20px">
             {% if request.user.is_authenticated %}
                 {% if request.user in category.followers.all %}
                     <button class="btn btn-primary" onclick="follow()">
@@ -71,10 +95,9 @@ path {
 </div>
 
 
+<div id="statistici" class="d-flex align-items-center"></div>
 
-
-<div id="statistici"></div>
-
+<br />
 <table class="table table-bordered table-hover">
     <caption>Posts in this category</caption>
     <tbody>
@@ -85,7 +108,7 @@ path {
             <td>{{ post.text }}</td>
             <td>
                 <a href="{% url 'post_detail' pk_category=category.pk pk_post=post.pk %}">
-                    <button class="btn btn-info">
+                    <button class="btn btn-primary">
                         Detalii
                     </button>
                 </a>
@@ -118,7 +141,7 @@ var follow = function() {
 // Set the dimensions of the canvas / graph
 var margin = {top: 30, right: 20, bottom: 30, left: 50},
     width = 600 - margin.left - margin.right,
-    height = 270 - margin.top - margin.bottom;
+    height = 150 - margin.top - margin.bottom;
 
 // Parse the date / time
 var parseDate = d3.time.format("%d-%b-%y").parse;
