@@ -14,13 +14,13 @@
             <td>{{ post.pk }}</td>
             <td>{{ post.title }}</td>
             <td>{{ post.text }}</td>
-{#            <td>#}
-{#                <a href="{% url 'group_detail' pk=group.pk %}">#}
-{#                    <button class="btn btn-info">#}
-{#                        Detalii#}
-{#                    </button>#}
-{#                </a>#}
-{#            </td>#}
+            <td>
+                <a href="{% url 'post_detail' pk=post.pk %}">
+                    <button class="btn btn-info">
+                        Detalii
+                    </button>
+                </a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
