@@ -25,7 +25,40 @@ path {
 
 {% block body %}
 
-<h1>Category - {{category.name}}</h1>
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="row">
+        <div class="col-md-6 d-flex align-items-center justify-content-end" style="padding-right: 20px; border-right: 1px solid #aaaaaa;">
+            <div style="text-align: right">
+                <h1 class="display-4">
+                    {{ category.name }}
+                </h1>
+                <span> {{ category.description }} </span>
+                <br />
+            </div>
+        </div>
+
+        <div class="col-md-6" style="text-align: left; padding-left: 20px">
+            {% if request.user.is_authenticated and request.user in category.admins.all %}
+                <a href="{% url 'edit_category' pk_category=category.pk %}">
+                    <button class="btn btn-primary">
+                        Edit category
+                    </button>
+                </a>
+                <br />
+                <br />
+                <a href="#">
+                    <button class="btn btn-danger">
+                        Delete category
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
 
 <div id="statistici"></div>
 

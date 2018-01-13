@@ -170,12 +170,23 @@ class EditUserProfile(LoginRequiredMixin, UpdateView):
         )
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
-    template_name = 'add_category.html'
+    template_name = 'category_form.html'
     form_class = CategoryForm
     model = Category
 
-    def form_valid(self, form):
-        return super(CategoryCreateView, self).form_valid(form)
+    def get_success_url(self, *args, **kwargs):
+        return reverse(
+            'category_post_list', 
+            kwargs = {
+                'pk': self.object.pk
+            }
+        )
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'category_form.html'
+    form_class = CategoryForm
+    model = Category
+    pk_url_kwarg = 'pk_category'
 
     def get_success_url(self, *args, **kwargs):
         return reverse(
