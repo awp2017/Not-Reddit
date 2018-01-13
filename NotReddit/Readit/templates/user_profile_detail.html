@@ -36,6 +36,16 @@
      Admins
 </h2>
 
+{% if request.user.is_authenticated and request.user.username == user.username %}
+	<a href="{% url 'add_category' %}">
+	    <button class="btn btn-primary">
+	        Add category
+	    </button>
+	</a>
+<br />
+<br />
+{% endif %}
+
 {% if user.admined_categories.count == 0 %}
 	<p> This user is the admin of no category. </p>
 {% else %}
