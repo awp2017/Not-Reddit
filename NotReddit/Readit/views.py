@@ -23,8 +23,6 @@ class PostListView(ListView):
     model = Post
     context_object_name = 'posts'
 
-
-
     def get_queryset(self, *args, **kwargs):
         return Post.objects.all()
 
