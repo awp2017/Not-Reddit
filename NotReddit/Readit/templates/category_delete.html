@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1>Delete category</h1>
+
+<form action="" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <input type="submit" value="Confirm" class="btn btn-primary" />
+</form>
+
+<a href="{% url 'category_post_list' pk_category=object.pk %}">
+	<button class="btn btn-default">
+		Cancel
+	</button>
+</a>
+
+
+{% endblock %}
