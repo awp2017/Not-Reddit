@@ -31,6 +31,19 @@ class Post(models.Model):
         return self.title
 
 
+# Who admins what category
+class Admin(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+    #category = models.ForeignKey(Category)
+
+
+# Who follows what category
+class FollowCategory(models.Model):
+    user = models.ForeignKey(User)
+    #category = models.ForeignKey(Category)
+
+
 class Comment(models.Model):
     text = models.CharField(max_length=10000)
     date_created = models.DateTimeField(auto_now_add=True)
